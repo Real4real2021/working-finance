@@ -206,6 +206,7 @@ const cogsAccountsSelector = document.getElementById("cogs-accounts-selector");
 const inventoryAdjustmentAccountSelector = document.getElementById("inventory-adjustments-accounts");
 const submitButton = document.getElementById("submit-button");
 
+let itemData = JSON.parse(localStorage.getItem("itemData")) || [];
 
 submitButton.addEventListener("click", () => {
     addItem();
@@ -231,9 +232,9 @@ function addItem(){
       inventoryAdjustmentAccounts: inventoryAdjustmentAccountSelector.value,
     }
 
-    inventoryData.push(newItemData);
-    console.log(inventoryData);
-    localStorage.setItem("newInventoryData", JSON.stringify(inventoryData) );
+    itemData.push(newItemData);
+    localStorage.setItem("itemData", JSON.stringify(itemData) );
+    console.log(itemData);
 }
 export const ItemData = JSON.parse(localStorage.getItem("newInventoryData"));
 console.log(ItemData);

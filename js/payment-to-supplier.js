@@ -1,6 +1,5 @@
 import { supplierDetails } from "../data/supplierDetails.js";
 import { ourBankAccounts } from "../data/ourBankAccounts.js";
-import { transactionHistory } from "../data/transactionHistory.js";
 const inputDiv = document.getElementById("top");
 const tableDiv = document.getElementById("bottom");
 const placePaymentButton = document.getElementById("place-payment-button"); 
@@ -75,6 +74,8 @@ const dimensions = document.getElementById("dimension-selector");
 const discountAmount = document.getElementById("discount-amount-input");   
 const paymentAmount = document.getElementById("payment-amount-input");   
 
+let paymentTransactionHistory = JSON.parse(localStorage.getItem("paymentTransactionHistory")) || [];
+
 supplierDetails.forEach(supplier => {
     paymentTo.add(new Option(supplier.supplier, supplier.supplier));
 })
@@ -97,8 +98,9 @@ placePaymentButton.addEventListener('click', () => {
         paymentAmount: paymentAmount.value,
     });
 
-    transactionHistory.push(paymentToSupplierItems[paymentToSupplierItems.length - 1]);
-    console.log(transactionHistory);
+    paymentTransactionHistory.push(paymentToSupplierItems[paymentToSupplierItems.length - 1]);
+    localStorage.setItem("paymentTransactionHistory", JSON.stringify(paymentTransactionHistory));
+    console.log(paymentTransactionHistory);
 
 
     // const groupedData = paymentToSupplierItems.reduce((acc, item) => {

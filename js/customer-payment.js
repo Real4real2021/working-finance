@@ -1,5 +1,5 @@
 import { inventoryData } from "../data/inventory.js";
-import  { transactionHistory } from "../data/transactionHistory.js";
+// import  { transactionHistory } from "../data/transactionHistory.js";
 
 const inputDiv = document.querySelector(".input-div");
 const tableDiv = document.querySelector(".mid-third");
@@ -21,8 +21,14 @@ const memo = document.getElementById("memo");
 const itemSelector = document.getElementById("item-selector");
 const addPaymentButton = document.getElementById("add-payment-button");
 
-inventoryData.forEach(item => {
-    itemSelector.add(new Option(item.item, item.item));
+// inventoryData.forEach(item => {
+//     itemSelector.add(new Option(item.item, item.item));
+// })
+
+const itemData = JSON.parse(localStorage.getItem("itemData")) || [];
+
+itemData.forEach(item => {
+    itemSelector.add(new Option(item.generalSettingsName, item.generalSettingsName));
 })
 
 function renderInputs() {
@@ -78,21 +84,24 @@ function renderInputs() {
   inputDiv.innerHTML = html;
 }
 
+let transactionHistory = JSON.parse(localStorage.getItem("transactionHistory")) || [];
+
 const customerPaymentData = []
 
 addPaymentButton.addEventListener("click", () => {
-    for(let i = 0; i < inventoryData.length; i++){
-        if(inventoryData[i].item == itemSelector.value && inventoryData[i].quantity > 0){
-            console.log(inventoryData[i].quantity);
-            inventoryData[i].quantity--;
-            console.log(inventoryData[i].quantity);
-            break;
-        }else{
-            alert("Item not available in inventory");
-            return;
-        }
-    }
+    // for(let i = 0; i < inventoryData.length; i++){
+    //     if(inventoryData[i].item == itemSelector.value && inventoryData[i].quantity > 0){
+    //         console.log(inventoryData[i].quantity);
+    //         inventoryData[i].quantity--;
+    //         console.log(inventoryData[i].quantity);
+    //         break;
+    //     }else{
+    //         alert("Item not available in inventory");
+    //         return;
+    //     }
+    // }
         customerPaymentData.push( {
+          transactionType: "sale",
           customer: customerSelector.value,
           branch: branchSelector.value,
           accountType: bankAccountSelector.value,
@@ -101,13 +110,14 @@ addPaymentButton.addEventListener("click", () => {
           referance: referanceInput.value,
           bankCharge: bankChargeInput.value,
         })
-        transactionHistory.push(customerPaymentData[customerPaymentData.length - 1]);
-        console.log(transactionHistory);
-        localStorage.setItem("NewCustomerPaymentData", JSON.stringify(customerPaymentData) ); 
-        renderReceipt();
-});
 
-const newCustomerPaymentData = JSON.parse(localStorage.getItem("NewCustomerPaymentData"));
+        transactionHistory.push(customerPaymentData[customerPaymentData.length - 1])
+        localStorage.setItem("transactionHistory", JSON.stringify(transactionHistory));
+        console.log(transactionHistory);
+        console.log()
+        renderReceipt();
+    });
+    
 
 function renderReceipt() {
 

@@ -1,6 +1,6 @@
 import { paymentClasses } from "../data/paymentClasses.js";
 import { ourBankAccounts } from "../data/ourBankAccounts.js";
-import { transactionHistory } from "../data/transactionHistory.js";
+// import { transactionHistory } from "../data/transactionHistory.js";
 
 const inputDiv = document.getElementById("input-div");
 const tableDiv = document.getElementById("table-div");
@@ -23,6 +23,9 @@ function renderInputs() {
             </label>
             <label for="from">From:
                 <select name="from-selector" id="from-selector"></select>
+            </label>
+            <label for="amount">Amount:
+                <input type="text" name="" id="amount-input">
             </label>
         </div>
     `
@@ -58,6 +61,9 @@ const dateInput = document.getElementById("date-input");
 const referenceInput = document.getElementById("reference-input");
 const paymentTypeSelector = document.getElementById("payment-type-selector");
 const fromSelector = document.getElementById("from-selector");
+const amountInput = document.getElementById("amount-input");
+
+let bankAccountPayment = JSON.parse(localStorage.getItem("bankAccountPayment")) || [];
 
 paymentClasses.forEach(paymentClass => {
     paymentTypeSelector.add(new Option(paymentClass.paymentClass, paymentClass.paymentClass));
@@ -77,8 +83,10 @@ processPaymentButton.addEventListener("click", () => {
         reference: referenceInput.value,
         paymentType: paymentTypeSelector.value,
         from: fromSelector.value,
+        amount: amountInput.value,
     })
 
-    transactionHistory.push(payments[payments.length - 1]);
-    console.log(transactionHistory);
+    bankAccountPayment.push(payments[payments.length - 1]);
+    localStorage.setItem("bankAccountPayment", JSON.stringify(bankAccountPayment));
+    console.log(bankAccountPayment);
 })
