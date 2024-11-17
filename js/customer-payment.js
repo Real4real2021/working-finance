@@ -1,5 +1,5 @@
 import { inventoryData } from "../Data/inventory.js";
-import  { transactionHistory } from "../Data/transactionHistory.js";
+// import  { transactionHistory } from "../Data/transactionHistory.js";
 
 const inputDiv = document.querySelector(".input-div");
 const tableDiv = document.querySelector(".mid-third");
@@ -101,8 +101,8 @@ addPaymentButton.addEventListener("click", () => {
           referance: referanceInput.value,
           bankCharge: bankChargeInput.value,
         })
-        transactionHistory.push(customerPaymentData[customerPaymentData.length - 1]);
-        console.log(transactionHistory);
+        // transactionHistory.push(customerPaymentData[customerPaymentData.length - 1]);
+        // console.log(transactionHistory);
         localStorage.setItem("NewCustomerPaymentData", JSON.stringify(customerPaymentData) ); 
         renderReceipt();
 });
